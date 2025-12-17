@@ -131,7 +131,7 @@ def merge_model_results(data, new_data, data_model, new_data_model, num):
     cols = df.columns.tolist()                
     cols.insert(0, cols.pop(cols.index("doc_num"))) 
     df = df[cols]                              
-
+    
     return df
     
 # add column: number of words in summary text
@@ -144,6 +144,7 @@ def add_count_words(data):
         word_count = len(words)
         count_words.append(word_count)
     data["num_words"] = count_words
+    
     return data
 
 # add column: sex
@@ -187,6 +188,8 @@ def add_themes(data, sex):
         how="left"
     ).rename(columns={"term_type": "health_theme"})
 
+    data = data.drop_duplicates(subset=["doc_num", "text"])
+    print(data)
     return data
 
 # n: how many people should be in the data set
